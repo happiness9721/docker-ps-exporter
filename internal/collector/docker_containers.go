@@ -21,7 +21,7 @@ var (
 	containerUptime = prometheus.NewDesc(
 		"docker_ps_container_up",
 		"Whether docker container is up, as reported by docker ps command.",
-		[]string{"container_name", "container_id", "state"}, nil,
+		[]string{"container_name", "container_image", "container_id", "state"}, nil,
 	)
 )
 
@@ -48,6 +48,7 @@ func (c DockerContainers) Collect(ch chan<- prometheus.Metric) {
 				prometheus.GaugeValue,
 				boolToGaugeValue(up),
 				name,
+				container.Image,
 				container.ID,
 				container.State,
 			)
